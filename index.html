@@ -1,0 +1,354 @@
+<html>
+<head>
+<title></title>
+<style>
+	*{
+		margin:0px;
+		padding:0px;
+	}
+	#container{
+		position:relative;
+	}
+	.box{
+		padding:9px;
+		border:1px solid #ccc;
+		float:left;
+	}
+	.box_img{
+		box-shadow:0 0 5px #ccc;
+		border-radius:5px;
+	}
+	.box_img img{
+		width:210px;
+	}
+</style>
+<script>
+	var container;
+	var contentElements;
+	var img_num = 30;
+	window.onload = function(){
+		//获取元素标签
+		setImgPosition();
+		window.onscroll = function (){
+			//添加新的图片
+			for(var i=20;i<img_num;i++){
+				//判断如果滚动屏幕要求刷新
+				if(isFlush()){
+					creatNewImg(i);
+				}
+			}
+			setImgPosition();
+		}
+	}
+	function creatNewImg(i){
+		var div = document.createElement("div");
+		div.className = "box";
+		container.appendChild(div);
+		var div_img = document.createElement("div");
+		div_img.className = "box_img";
+		div.appendChild(div_img);
+		var img = document.createElement("img");
+		img.src="img/img ("+i+").jpg";
+		div_img.appendChild(img);
+	}
+	//判断是否应该刷新
+	function isFlush(){
+		var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;//滚动距离
+		var clientHeight = document.documentElement.clientHeight;//屏幕高度
+		var minHeight = contentElements[contentElements.length-2].offsetTop+contentElements[contentElements.length-2].offsetHeight/2;//最后一张图片加载的地方
+		if(minHeight<scrollTop + clientHeight){
+			return true;
+		}
+		
+		
+	}
+	//设置瀑布流图片的位置
+	function setImgPosition(){
+		container = document.getElementById("container");
+		contentElements = getContentElements();
+		//得到一些基本参数
+		var clientWidth = document.documentElement.clientWidth;//屏幕宽度
+		var imgWidth = contentElements[0].offsetWidth;//图片宽度
+		var colNum = Math.floor(clientWidth/imgWidth);//每行的图片个数
+		var colHeightArr = [];
+		//定义container的宽度
+		container.style.cssText = imgWidth*colNum+"px;margin:0 auto"
+		//获取每列最低高度
+		getMinColHeight(colHeightArr,colNum);
+	}
+	//获取colHeightArr的值
+	function getMinColHeight(colHeightArr,colNum){
+		var contentLength = contentElements.length;
+		for(var i=0;i<contentLength;i++){
+			if(i<colNum){
+				colHeightArr[i]= contentElements[i].offsetHeight;
+			}else{
+				var minHeight = Math.min.apply(null,colHeightArr);
+				//获取最小高度所在位置
+				var minIndex = findMinIndex(colHeightArr,minHeight);
+				//将i的图片的位置信息变为index下
+				contentElements[i].style.position = "absolute";
+				contentElements[i].style.top = minHeight + "px";
+				//console.log(minHeight+" "+contentElements[minIndex].offsetHeight);
+				contentElements[i].style.left = contentElements[minIndex].offsetLeft+"px";
+				//更新colHeightArr
+				colHeightArr[minIndex] += contentElements[i].offsetHeight; 
+			}
+		}
+	}
+	//获取最小的minHeight的所在位置
+	function findMinIndex(colHeightArr,minHeight){
+		var colNum = colHeightArr.length;
+		for(var i = 0;i<colNum;i++){
+			if(colHeightArr[i] == minHeight){
+				return i;
+			}
+		}
+	}
+	//获取box子元素
+	function getContentElements(){
+		var elements = document.getElementsByTagName("div");
+		var contentArr = [];
+		for(var i = 0;i<elements.length;i++){
+			if(elements[i].className == "box"){
+				contentArr.push(elements[i]);
+			}
+		}
+		return contentArr;
+	}
+</script>
+</head>
+<body>
+	<div id="container">
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (1).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (2).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (3).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (4).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (5).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (6).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (7).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (8).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (9).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (10).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (11).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (12).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (13).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (1).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (14).jpg">
+			</div>
+		</div>
+
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (15).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (16).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (17).jpg">
+			</div>
+		</div>
+
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (18).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (19).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (20).jpg">
+			</div>
+		</div>
+
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (21).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (1).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (2).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (3).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (4).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (5).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (6).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (7).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (8).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (9).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (10).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (11).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (12).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (13).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (1).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (14).jpg">
+			</div>
+		</div>
+
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (15).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (16).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (17).jpg">
+			</div>
+		</div>
+
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (18).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (19).jpg">
+			</div>
+		</div>
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (20).jpg">
+			</div>
+		</div>
+
+		<div class="box">
+			<div class="box_img">
+				<img src="img/img (21).jpg">
+			</div>
+		</div>
+
+
+	</div>
+
+</body>
+</html>
